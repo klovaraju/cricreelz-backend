@@ -2,6 +2,8 @@ const { default: mongoose } = require('mongoose');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt=require('jsonwebtoken');
+const dotenv=require('dotenv').config()
+const secretkey=process.env.JWT_SECRET_KEY
 const userRegister = async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -141,7 +143,8 @@ const userLogin = async (req, res) => {
                 message: "Invalid credentials"
             });
         }
-          const token=jwt.sign({userId:existingUser._id})
+          const token=jwt.sign({userId:existingUser._id},secretkey,{expiresIn:"1h"})
+       
         // Login successful
         res.status(200).json({
             success: true,
@@ -151,7 +154,10 @@ const userLogin = async (req, res) => {
                 username: existingUser.username,
                 email: existingUser.email
             }
+            ,token:token
         });
+        console.log("token:",token)
+       
 
     } catch (error) {
         console.error("Login error:", error);
