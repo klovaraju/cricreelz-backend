@@ -9,7 +9,7 @@ const app = express()
 
 // Enable CORS
 app.use(cors({
-    origin: 'http://localhost:3000', // Vite's default port
+    origin: 'https://cricreelz-frontend.vercel.app', // Vite's default port
     credentials: true
 }));
 
